@@ -113,6 +113,11 @@
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <material name="blue"/>
     </visual>
+    <inertial>
+      <mass value="0.5"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.000375" ixy="0.0" ixz="0.0" iyy="0.000122" iyz="0.0" izz="0.000422"/>
+    </inertial>
   </link>
   <link name="servo_bottom">
     <visual>
@@ -122,6 +127,11 @@
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <material name="red"/>
     </visual>
+    <inertial>
+      <mass value="0.2"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="2.5e-05" ixy="0.0" ixz="0.0" iyy="1.25e-05" iyz="0.0" izz="2.5e-05"/>
+    </inertial>
   </link>
   <link name="U_Link">
     <visual>
