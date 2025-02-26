@@ -1,6 +1,15 @@
 cmake_minimum_required(VERSION 3.0.2)
 project(realsense_explorer_description)
 
+# Base robot variables
+set(BASE_BOT_XACRO_FILE ${CMAKE_CURRENT_SOURCE_DIR}/urdf/realsense_bot.urdf.xacro)
+set(BUILD_BASE_BOT_URDF_FILE ${CATKIN_DEVEL_PREFIX}/share/${PROJECT_NAME}/urdf/realsense_bot.urdf)
+set(BASE_BOT_URDF_FILE ${CMAKE_CURRENT_SOURCE_DIR}/urdf/realsense_bot.urdf)
+
+# Explorer robot variables
+set(BOT_XACRO_FILE ${CMAKE_CURRENT_SOURCE_DIR}/urdf/realsense_explorer.urdf.xacro)
+set(BUILD_BOT_URDF_FILE ${CATKIN_DEVEL_PREFIX}/share/${PROJECT_NAME}/urdf/realsense_explorer.urdf)
+set(BOT_URDF_FILE ${CMAKE_CURRENT_SOURCE_DIR}/urdf/realsense_explorer.urdf)
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
 
@@ -11,11 +20,55 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  xacro
 )
+
+# Add a custom command to generate the URDF for base robot
+add_custom_command(
+    OUTPUT ${BUILD_BASE_BOT_URDF_FILE}
+    COMMAND xacro ${BASE_BOT_XACRO_FILE} -o ${BUILD_BASE_BOT_URDF_FILE}
+    DEPENDS ${BASE_BOT_XACRO_FILE}
+    COMMENT "Generating URDF output file from xacro for base robot"
+)
+
+add_custom_command(
+    OUTPUT ${BASE_BOT_URDF_FILE}
+    COMMAND xacro ${BASE_BOT_XACRO_FILE} -o ${BASE_BOT_URDF_FILE}
+    DEPENDS ${BASE_BOT_XACRO_FILE}
+    COMMENT "Generating URDF file from xacro in place for base robot"
+)
+
+
+# Add a custom command to generate the URDF for full robot
+add_custom_command(
+    OUTPUT ${BUILD_BOT_URDF_FILE}
+    COMMAND xacro ${BOT_XACRO_FILE} -o ${BUILD_BOT_URDF_FILE}
+    DEPENDS ${BOT_XACRO_FILE}
+    COMMENT "Generating URDF output file from xacro for full robot"
+)
+
+add_custom_command(
+    OUTPUT ${BOT_URDF_FILE}
+    COMMAND xacro ${BOT_XACRO_FILE} -o ${BOT_URDF_FILE}
+    DEPENDS ${BOT_XACRO_FILE}
+    COMMENT "Generating URDF file from xacro in place for full robot"
+)
+
+add_custom_target(remove_urdf)
+
+add_custom_target(generate_urdf ALL DEPENDS ${BASE_BOT_URDF_FILE} ${BOT_URDF_FILE} ${BUILD_BASE_BOT_URDF_FILE} ${BUILD_BOT_URDF_FILE})
+
+# Remove the existing URDF files before running xacro
+add_custom_command(
+    TARGET remove_urdf
+    COMMAND ${CMAKE_COMMAND} -E remove ${BASE_BOT_URDF_FILE} ${BOT_URDF_FILE}
+    COMMENT "Removing existing URDF files before regenerating"
+)
+
+add_dependencies(generate_urdf remove_urdf)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
-
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
