@@ -13,7 +13,7 @@
   <link name="base_link"/>
   <!-- camera body, with origin at bottom screw mount -->
   <joint name="camera_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <origin rpy="0 0 0" xyz="0.08 0 -0.035"/>
     <parent link="base_link"/>
     <child link="camera_bottom_screw_frame"/>
   </joint>
@@ -96,135 +96,6 @@
     <child link="camera_color_optical_frame"/>
   </joint>
   <link name="camera_color_optical_frame"/>
-  <material name="blue">
-    <color rgba="0 0 0.8 1"/>
-  </material>
-  <material name="red">
-    <color rgba="1 0 0 1"/>
-  </material>
-  <material name="white">
-    <color rgba="1 1 1 1"/>
-  </material>
-  <link name="rbot_base">
-    <visual>
-      <geometry>
-        <box size="0.045 0.09 0.03"/>
-      </geometry>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <material name="blue"/>
-    </visual>
-    <inertial>
-      <mass value="0.5"/>
-      <origin xyz="0 0 0"/>
-      <inertia ixx="0.000375" ixy="0.0" ixz="0.0" iyy="0.000122" iyz="0.0" izz="0.000422"/>
-    </inertial>
-  </link>
-  <link name="servo_bottom">
-    <visual>
-      <geometry>
-        <cylinder length="0.05" radius="0.015"/>
-      </geometry>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <material name="red"/>
-    </visual>
-    <inertial>
-      <mass value="0.2"/>
-      <origin xyz="0 0 0"/>
-      <inertia ixx="2.5e-05" ixy="0.0" ixz="0.0" iyy="1.25e-05" iyz="0.0" izz="2.5e-05"/>
-    </inertial>
-  </link>
-  <link name="U_Link">
-    <visual>
-      <geometry>
-        <box size="0.015 0.03 0.064"/>
-      </geometry>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <material name="blue"/>
-    </visual>
-    <inertial>
-      <mass value="0.15"/>
-      <origin xyz="0 0 0"/>
-      <inertia ixx="4.6933e-05" ixy="0.0" ixz="0.0" iyy="1.4062e-05" iyz="0.0" izz="3.6094e-06"/>
-    </inertial>
-  </link>
-  <link name="servo_mid">
-    <visual>
-      <geometry>
-        <cylinder length="0.05" radius="0.015"/>
-      </geometry>
-      <origin rpy="1.57 0 0" xyz="0 0 0"/>
-      <material name="red"/>
-    </visual>
-    <inertial>
-      <mass value="0.0477"/>
-      <origin xyz="0 0 0"/>
-      <inertia ixx="4.4887e-06" ixy="0.0" ixz="0.0" iyy="2.2443e-06" iyz="0.0" izz="4.4887e-06"/>
-    </inertial>
-  </link>
-  <link name="servo_up">
-    <visual>
-      <geometry>
-        <cylinder length="0.05" radius="0.015"/>
-      </geometry>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <material name="red"/>
-    </visual>
-    <inertial>
-      <mass value="0.0477"/>
-      <origin xyz="0 0 0"/>
-      <inertia ixx="4.4887e-06" ixy="0.0" ixz="0.0" iyy="2.2443e-06" iyz="0.0" izz="4.4887e-06"/>
-    </inertial>
-  </link>
-  <link name="up_mount">
-    <visual>
-      <geometry>
-        <box size="0.05 0.148 0.05"/>
-      </geometry>
-      <origin rpy="0 0.785 0" xyz="0 0 0"/>
-      <material name="white"/>
-    </visual>
-    <inertial>
-      <mass value="0.0999"/>
-      <origin xyz="0 0 0"/>
-      <inertia ixx="9.2267e-05" ixy="0.0" ixz="0.0" iyy="1.8252e-05" iyz="0.0" izz="9.2267e-05"/>
-    </inertial>
-  </link>
-  <joint name="base_to_Servo_B" type="fixed">
-    <parent link="rbot_base"/>
-    <child link="servo_bottom"/>
-    <origin xyz="0 0 0.04"/>
-  </joint>
-  <joint name="Joint_1" type="revolute">
-    <parent link="servo_bottom"/>
-    <child link="U_Link"/>
-    <axis xyz="0 0 1"/>
-    <limit effort="1000.0" lower="-1.57" upper="1.57" velocity="0.5"/>
-    <origin xyz="0 0 0.056"/>
-  </joint>
-  <joint name="Joint_2" type="revolute">
-    <parent link="U_Link"/>
-    <child link="servo_mid"/>
-    <axis xyz="0 1 0"/>
-    <limit effort="1000.0" lower="-1.57" upper="1.57" velocity="0.5"/>
-    <origin rpy="0 0.67 0" xyz="0 0 0.036"/>
-  </joint>
-  <joint name="servo_mid_to_servo_up" type="fixed">
-    <parent link="servo_mid"/>
-    <child link="servo_up"/>
-    <origin xyz="-0.0237 -0.009 0"/>
-  </joint>
-  <joint name="Joint_3" type="revolute">
-    <parent link="servo_up"/>
-    <child link="up_mount"/>
-    <axis xyz="0 0 1"/>
-    <limit effort="1000.0" lower="-1.57" upper="1.57" velocity="0.5"/>
-    <origin xyz="-0.0237 -0.009 0.04"/>
-  </joint>
-  <joint name="mount_to_camera" type="fixed">
-    <parent link="up_mount"/>
-    <child link="base_link"/>
-    <origin rpy="0 -0.785 0" xyz="0.03 0 0.02"/>
-  </joint>
   <material name="invisible">
     <color rgba="0 0 0 0"/>
   </material>
@@ -262,8 +133,8 @@
   </joint>
   <joint name="chasis_to_rbot" type="fixed">
     <parent link="robot_base"/>
-    <child link="rbot_base"/>
-    <origin rpy="0 0 0" xyz="-0.09 0 0.13787"/>
+    <child link="base_link"/>
+    <origin rpy="0 0 0" xyz="0 0 0.125"/>
   </joint>
   <link name="link_right_wheel">
     <collision name="link_right_wheel_visual">

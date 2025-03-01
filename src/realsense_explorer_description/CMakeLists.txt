@@ -1,11 +1,6 @@
 cmake_minimum_required(VERSION 3.0.2)
 project(realsense_explorer_description)
 
-# Base robot variables
-set(BASE_BOT_XACRO_FILE ${CMAKE_CURRENT_SOURCE_DIR}/urdf/realsense_bot.urdf.xacro)
-set(BUILD_BASE_BOT_URDF_FILE ${CATKIN_DEVEL_PREFIX}/share/${PROJECT_NAME}/urdf/realsense_bot.urdf)
-set(BASE_BOT_URDF_FILE ${CMAKE_CURRENT_SOURCE_DIR}/urdf/realsense_bot.urdf)
-
 # Explorer robot variables
 set(BOT_XACRO_FILE ${CMAKE_CURRENT_SOURCE_DIR}/urdf/realsense_explorer.urdf.xacro)
 set(BUILD_BOT_URDF_FILE ${CATKIN_DEVEL_PREFIX}/share/${PROJECT_NAME}/urdf/realsense_explorer.urdf)
@@ -22,22 +17,6 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   xacro
 )
-
-# Add a custom command to generate the URDF for base robot
-add_custom_command(
-    OUTPUT ${BUILD_BASE_BOT_URDF_FILE}
-    COMMAND xacro ${BASE_BOT_XACRO_FILE} -o ${BUILD_BASE_BOT_URDF_FILE}
-    DEPENDS ${BASE_BOT_XACRO_FILE}
-    COMMENT "Generating URDF output file from xacro for base robot"
-)
-
-add_custom_command(
-    OUTPUT ${BASE_BOT_URDF_FILE}
-    COMMAND xacro ${BASE_BOT_XACRO_FILE} -o ${BASE_BOT_URDF_FILE}
-    DEPENDS ${BASE_BOT_XACRO_FILE}
-    COMMENT "Generating URDF file from xacro in place for base robot"
-)
-
 
 # Add a custom command to generate the URDF for full robot
 add_custom_command(
@@ -56,7 +35,7 @@ add_custom_command(
 
 add_custom_target(remove_urdf)
 
-add_custom_target(generate_urdf ALL DEPENDS ${BASE_BOT_URDF_FILE} ${BOT_URDF_FILE} ${BUILD_BASE_BOT_URDF_FILE} ${BUILD_BOT_URDF_FILE})
+add_custom_target(generate_urdf ALL DEPENDS ${BASE_BOT_URDF_FILE} ${BOT_URDF_FILE})
 
 # Remove the existing URDF files before running xacro
 add_custom_command(

@@ -5,8 +5,12 @@
   <xacro:arg name="use_nominal_extrinsics" default="false"/>
   <xacro:arg name="add_plug" default="false" />
   <xacro:arg name="use_mesh" default="true" />
-
-  <xacro:include filename="$(find realsense_explorer_description)/urdf/realsense_bot.urdf.xacro" />
+  <xacro:include filename="$(find realsense2_description)/urdf/_d435.urdf.xacro" />
+  
+  <link name="base_link" />
+  <xacro:sensor_d435 parent="base_link" use_nominal_extrinsics="true" add_plug="false" use_mesh="true">
+    <origin xyz="0.08 0 -0.035" rpy="0 0 0"/>
+  </xacro:sensor_d435>
 
   <material name="invisible">
     <color rgba="0 0 0 0"/>
@@ -56,8 +60,8 @@
 
   <joint name="chasis_to_rbot" type="fixed">
     <parent link="robot_base"/>
-    <child link="rbot_base"/>
-    <origin xyz="-0.09 0 0.13787" rpy="0 0 0"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 0.125" rpy="0 0 0"/>
   </joint>
 
 
