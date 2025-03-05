@@ -6,8 +6,8 @@
    
   <link name="base_link" />
 
-  <xacro:sensor_d435 name="camera" topics_ns="camera" parent="base_link" publish_pointcloud="true">
-    <origin xyz="0.08 0 -0.035" rpy="0 0 0" />
+  <xacro:sensor_d435 name="camera" topics_ns="camera" parent="robot_base" publish_pointcloud="true">
+    <origin xyz="0.08 0 0.09" rpy="0 0 0" />
   </xacro:sensor_d435>
 
   <material name="invisible">
@@ -23,7 +23,28 @@
   </material>
 
   <gazebo>
-    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so"/>
+    <plugin name="skid_steer_drive_controller" filename="libgazebo_ros_skid_steer_drive.so">
+      <updateRate>100.0</updateRate>
+      <robotNamespace>/</robotNamespace>
+
+      <leftFrontJoint>joint_front_left_wheel</leftFrontJoint>
+      <rightFrontJoint>joint_front_right_wheel</rightFrontJoint>
+      <leftRearJoint>joint_back_left_wheel</leftRearJoint>
+      <rightRearJoint>joint_back_right_wheel</rightRearJoint>
+      <wheelSeparation>0.2</wheelSeparation>  
+      <wheelDiameter>0.2</wheelDiameter>
+      <robotBaseFrame>base_footprint</robotBaseFrame>
+      <torque>20</torque>
+      <maxVelocity>2.0</maxVelocity>
+      <maxAcceleration>3.0</maxAcceleration>
+      <topicName>cmd_vel</topicName>
+      <odometryTopic>odom</odometryTopic>
+      <odometryFrame>odom</odometryFrame>
+      <broadcastTF>true</broadcastTF>
+      <covariance_x>0.0001</covariance_x>
+      <covariance_y>0.0001</covariance_y>
+      <covariance_yaw>0.01</covariance_yaw>
+    </plugin>
   </gazebo>
 
   <link name="base_footprint"/>
@@ -56,28 +77,29 @@
   <joint name="base_joint" type="fixed">
     <origin rpy="0 0 0" xyz="0 0 0" />
     <parent link="base_footprint"/>
-    <child link="robot_base" />
+    <child link="base_link" />
   </joint>
   
   <joint name="chasis_to_rbot" type="fixed">
-    <parent link="robot_base"/>
-    <child link="base_link"/>
-    <origin xyz="0 0 0.125" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="robot_base"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
   </joint>
 
-  <link name="link_right_wheel">        
+  <!-- Front Right Wheel -->
+  <link name="link_front_right_wheel">        
         
-    <collision name="link_right_wheel_visual">      
-      <origin rpy="0 1.5707 1.57" xyz="0 0 0"/>      
+    <collision name="link_front_right_wheel_visual">      
+      <origin rpy="1.5707 0 0" xyz="0 0 0"/>      
       <geometry>        
-        <cylinder length="0.04" radius="0.055"/>    
+        <cylinder length="0.02" radius="0.02"/>    
       </geometry>         
     </collision>      
        
-    <visual name="link_right_wheel_visual">      
-      <origin rpy="0 1.5707 1.57" xyz="0 0 0"/>      
+    <visual name="link_front_right_wheel_visual">      
+      <origin rpy="1.5707 0 0" xyz="0 0 0"/>      
       <geometry>        
-        <cylinder length="0.04" radius="0.055"/>    
+        <cylinder length="0.02" radius="0.02"/>    
       </geometry>
       <material name="green"/>         
     </visual>
@@ -85,33 +107,34 @@
     <inertial>
       <mass value="0.456"/>
       <origin xyz="0 0 0"/>
-      <inertia ixx="0.000766" ixy="0.0" ixz="0.0"
-             iyy="0.000766" iyz="0.0" izz="0.000686"/>
-    </inertial>      
+      <inertia ixx="6.08e-5" ixy="0.0" ixz="0.0"
+           iyy="6.08e-5" iyz="0.0" izz="9.12e-5"/>
+    </inertial>       
   </link>
 
-  <joint name="joint_right_wheel" type="continuous">    
-    <origin rpy="0 0 0" xyz="0 -0.1 0.055"/>    
-    <child link="link_right_wheel" />    
+  <joint name="joint_front_right_wheel" type="continuous">    
+    <origin rpy="0 0 0" xyz="0.095 -0.08 0.02"/>    
+    <child link="link_front_right_wheel" />    
     <parent link="robot_base"/>    
     <axis xyz="0 1 0"/>    
     <limit effort="100" velocity="10"/>    
     <joint_properties damping="1.0" friction="1.0" />  
   </joint>
 
-  <link name="link_left_wheel">        
+  <!-- Front Left Wheel -->
+  <link name="link_front_left_wheel">        
 
-    <collision name="link_left_wheel_visual">      
-      <origin rpy="0 1.5707 1.57" xyz="0 0 0"/>      
+    <collision name="link_front_right_wheel_visual">      
+      <origin rpy="1.5707 0 0" xyz="0 0 0"/>      
       <geometry>        
-        <cylinder length="0.04" radius="0.055"/>    
+        <cylinder length="0.02" radius="0.02"/>    
       </geometry>         
     </collision>      
 
-    <visual name="link_left_wheel_visual">      
-      <origin rpy="0 1.5707 1.57" xyz="0 0 0"/>      
+    <visual name="link_front_right_wheel_visual">      
+      <origin rpy="1.5707 0 0" xyz="0 0 0"/>      
       <geometry>        
-        <cylinder length="0.04" radius="0.055"/>    
+        <cylinder length="0.02" radius="0.02"/>    
       </geometry>       
       <material name="green"/>  
     </visual>  
@@ -119,20 +142,91 @@
     <inertial>
       <mass value="0.456"/>
       <origin xyz="0 0 0"/>
-      <inertia ixx="0.000766" ixy="0.0" ixz="0.0"
-             iyy="0.000766" iyz="0.0" izz="0.000686"/>
-    </inertial>    
+      <inertia ixx="6.08e-5" ixy="0.0" ixz="0.0"
+           iyy="6.08e-5" iyz="0.0" izz="9.12e-5"/>
+    </inertial>   
   </link>
 
-  <joint name="joint_left_wheel" type="continuous">    
-    <origin rpy="0 0 0" xyz="0 0.1 0.055"/>    
-    <child link="link_left_wheel" />    
+  <joint name="joint_front_left_wheel" type="continuous">    
+    <origin rpy="0 0 0" xyz="0.095 0.08 0.02"/>    
+    <child link="link_front_left_wheel" />    
     <parent link="robot_base"/>    
     <axis xyz="0 1 0"/>    
     <limit effort="100" velocity="10"/>    
     <joint_properties damping="1.0" friction="1.0" />  
   </joint>
 
+  <!-- Back Left Wheel -->
+  <link name="link_back_left_wheel">        
+
+    <collision name="link_back_right_wheel_visual">      
+      <origin rpy="1.5707 0 0" xyz="0 0 0"/>      
+      <geometry>        
+        <cylinder length="0.02" radius="0.02"/>    
+      </geometry>         
+    </collision>      
+
+    <visual name="link_back_right_wheel_visual">      
+      <origin rpy="1.5707 0 0" xyz="0 0 0"/>      
+      <geometry>        
+        <cylinder length="0.02" radius="0.02"/>    
+      </geometry>       
+      <material name="green"/>  
+    </visual>  
+
+    <inertial>
+      <mass value="0.456"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="6.08e-5" ixy="0.0" ixz="0.0"
+           iyy="6.08e-5" iyz="0.0" izz="9.12e-5"/>
+    </inertial>   
+  </link>
+
+  <joint name="joint_back_left_wheel" type="continuous">    
+    <origin rpy="0 0 0" xyz="-0.073 0.08 0.02"/>    
+    <child link="link_back_left_wheel" />    
+    <parent link="robot_base"/>    
+    <axis xyz="0 1 0"/>    
+    <limit effort="100" velocity="10"/>    
+    <joint_properties damping="1.0" friction="1.0" />  
+  </joint>
+
+  <!-- Back Right Wheel -->
+  <link name="link_back_right_wheel">        
+        
+    <collision name="link_back_right_wheel_visual">      
+      <origin rpy="1.5707 0 0" xyz="0 0 0"/>      
+      <geometry>        
+        <cylinder length="0.02" radius="0.02"/>    
+      </geometry>         
+    </collision>      
+       
+    <visual name="link_back_right_wheel_visual">      
+      <origin rpy="1.5707 0 0" xyz="0 0 0"/>      
+      <geometry>        
+        <cylinder length="0.02" radius="0.02"/>    
+      </geometry>
+      <material name="green"/>         
+    </visual>
+
+    <inertial>
+      <mass value="0.456"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="6.08e-5" ixy="0.0" ixz="0.0"
+           iyy="6.08e-5" iyz="0.0" izz="9.12e-5"/>
+    </inertial>       
+  </link>
+
+  <joint name="joint_back_right_wheel" type="continuous">    
+    <origin rpy="0 0 0" xyz="-0.073 -0.08 0.02"/>    
+    <child link="link_back_right_wheel" />    
+    <parent link="robot_base"/>    
+    <axis xyz="0 1 0"/>    
+    <limit effort="100" velocity="10"/>    
+    <joint_properties damping="1.0" friction="1.0" />  
+  </joint>
+
+  <!-- IMU Link -->
   <link name="imu_link">
       <visual>
         <geometry>
@@ -153,38 +247,4 @@
     <child link="imu_link" />    
     <parent link="robot_base"/>    
   </joint>
-
-  <transmission name="right_wheel_transmission">
-    <type>transmission_interface/SimpleTransmission</type>
-
-    <joint name="joint_right_wheel">
-      <hardwareInterface>
-        hardware_interface/VelocityJointInterface
-      </hardwareInterface>      
-    </joint> 
-
-    <actuator name="right_wheel_actuator">        
-      <mechanicalReduction>1</mechanicalReduction>    
-      <hardwareInterface>
-        VelocityJointInterface
-      </hardwareInterface>   
-    </actuator>   
-  </transmission>
-
-  <transmission name="left_wheel_transmission">
-    <type>transmission_interface/SimpleTransmission</type>
-
-    <joint name="joint_left_wheel">
-      <hardwareInterface>
-        hardware_interface/VelocityJointInterface
-      </hardwareInterface>      
-    </joint> 
-
-    <actuator name="left_wheel_actuator">        
-      <mechanicalReduction>1</mechanicalReduction>    
-      <hardwareInterface>
-        VelocityJointInterface
-      </hardwareInterface>   
-    </actuator>   
-  </transmission>
 </robot>
