@@ -128,7 +128,7 @@
         </noise>
       </camera>
       <always_on>1</always_on>
-      <update_rate>30</update_rate>
+      <update_rate>20.0</update_rate>
       <visualize>1</visualize>
     </sensor>
     <sensor name="cameraired1" type="camera">
@@ -150,7 +150,7 @@
         </noise>
       </camera>
       <always_on>1</always_on>
-      <update_rate>90</update_rate>
+      <update_rate>20.0</update_rate>
       <visualize>0</visualize>
     </sensor>
     <sensor name="cameraired2" type="camera">
@@ -172,7 +172,7 @@
         </noise>
       </camera>
       <always_on>1</always_on>
-      <update_rate>90</update_rate>
+      <update_rate>20.0</update_rate>
       <visualize>0</visualize>
     </sensor>
     <sensor name="cameradepth" type="depth">
@@ -193,16 +193,16 @@
         </noise>
       </camera>
       <always_on>1</always_on>
-      <update_rate>90</update_rate>
+      <update_rate>20.0</update_rate>
       <visualize>0</visualize>
     </sensor>
   </gazebo>
   <gazebo>
     <plugin filename="librealsense_gazebo_plugin.so" name="camera">
       <prefix>camera</prefix>
-      <depthUpdateRate>30.0</depthUpdateRate>
-      <colorUpdateRate>30.0</colorUpdateRate>
-      <infraredUpdateRate>30.0</infraredUpdateRate>
+      <depthUpdateRate>20.0</depthUpdateRate>
+      <colorUpdateRate>20.0</colorUpdateRate>
+      <infraredUpdateRate>20.0</infraredUpdateRate>
       <depthTopicName>depth/image_raw</depthTopicName>
       <depthCameraInfoTopicName>depth/camera_info</depthCameraInfoTopicName>
       <colorTopicName>color/image_raw</colorTopicName>
@@ -234,7 +234,7 @@
   </material>
   <gazebo>
     <plugin filename="libgazebo_ros_skid_steer_drive.so" name="skid_steer_drive_controller">
-      <updateRate>100.0</updateRate>
+      <updateRate>20.0</updateRate>
       <robotNamespace>/</robotNamespace>
       <leftFrontJoint>joint_front_left_wheel</leftFrontJoint>
       <rightFrontJoint>joint_front_right_wheel</rightFrontJoint>

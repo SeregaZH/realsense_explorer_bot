@@ -6,7 +6,7 @@
    
   <link name="base_link" />
 
-  <xacro:sensor_d435 name="camera" topics_ns="camera" parent="robot_base" publish_pointcloud="true">
+  <xacro:sensor_d435 name="camera" topics_ns="camera" parent="robot_base" publish_pointcloud="true" color_ur="20.0" ir_ur="20.0" depth_ur="20.0">
     <origin xyz="0.08 0 0.09" rpy="0 0 0" />
   </xacro:sensor_d435>
 
@@ -24,7 +24,7 @@
 
   <gazebo>
     <plugin name="skid_steer_drive_controller" filename="libgazebo_ros_skid_steer_drive.so">
-      <updateRate>100.0</updateRate>
+      <updateRate>20.0</updateRate>
       <robotNamespace>/</robotNamespace>
 
       <leftFrontJoint>joint_front_left_wheel</leftFrontJoint>
