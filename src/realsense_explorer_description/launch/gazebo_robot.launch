@@ -1,5 +1,5 @@
 <launch>
-    <args name="word_name" default=""/>
+    <arg name="world_name" default="/usr/share/gazebo-11/worlds/empty.world" />
     <param name="robot_description" textfile="$(find realsense_explorer_description)/urdf/realsense_explorer.urdf" />
     
     <!-- Launch gazebo -->
