@@ -7,7 +7,7 @@
   <link name="base_link" />
 
   <xacro:sensor_d435 name="camera" topics_ns="camera" parent="robot_base" publish_pointcloud="true" color_ur="20.0" ir_ur="20.0" depth_ur="20.0">
-    <origin xyz="0.08 0 0.09" rpy="0 0 0" />
+    <origin xyz="0.038 0 0.09" rpy="0 0 0" />
   </xacro:sensor_d435>
 
   <material name="invisible">
@@ -34,9 +34,9 @@
       <wheelSeparation>0.2</wheelSeparation>  
       <wheelDiameter>0.2</wheelDiameter>
       <robotBaseFrame>base_footprint</robotBaseFrame>
-      <torque>20</torque>
-      <maxVelocity>2.0</maxVelocity>
-      <maxAcceleration>3.0</maxAcceleration>
+      <torque>10</torque>
+      <maxVelocity>1</maxVelocity>
+      <maxAcceleration>2.0</maxAcceleration>
       <topicName>cmd_vel</topicName>
       <odometryTopic>odom</odometryTopic>
       <odometryFrame>odom</odometryFrame>
@@ -285,14 +285,56 @@
   <link name="lidar_link">
     <visual>
       <geometry>
-        <cylinder radius="0.04" length="0.02"/> <!-- Adjust size as needed -->
+        <cylinder radius="0.02" length="0.03"/> <!-- Adjust size as needed -->
       </geometry>
       <material name="grey"/>
     </visual>
 
     <collision>
       <geometry>
-        <cylinder radius="0.04" length="0.02"/>
+        <cylinder radius="0.02" length="0.03"/>
+      </geometry>
+    </collision>
+
+    <inertial>
+      <mass value="0.2"/> 
+      <origin xyz="0 0 0"/>
+      <inertia ixx="8.67e-5" ixy="0.0" ixz="0.0" iyy="8.67e-5" iyz="0.0" izz="1.6e-4"/>
+    </inertial>
+  </link>
+
+  <link name="lidar_bottom_link">
+    <visual>
+      <geometry>
+        <box size="0.05 0.052 0.03"/> <!-- Adjust size as needed -->
+      </geometry>
+      <material name="grey"/>
+    </visual>
+
+    <collision>
+      <geometry>
+        <box size="0.05 0.052 0.03"/> 
+      </geometry>
+    </collision>
+
+    <inertial>
+      <mass value="0.2"/> 
+      <origin xyz="0 0 0"/>
+      <inertia ixx="8.67e-5" ixy="0.0" ixz="0.0" iyy="8.67e-5" iyz="0.0" izz="1.6e-4"/>
+    </inertial>
+  </link>
+
+  <link name="lidar_connection_link">
+    <visual>
+      <geometry>
+        <box size="0.06 0.1 0.04"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+
+    <collision>
+      <geometry>
+        <box size="0.06 0.1 0.04"/> 
       </geometry>
     </collision>
 
@@ -307,6 +349,18 @@
   <joint name="lidar_joint" type="fixed">
     <parent link="robot_base"/>
     <child link="lidar_link"/>
-    <origin xyz="0 0 0.132" rpy="0 0 0"/>
-  </joint>  
+    <origin xyz="0.03 0 0.205" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="lidar_bottom_joint" type="fixed">
+    <parent link="robot_base"/>
+    <child link="lidar_bottom_link"/>
+    <origin xyz="0.025 0 0.175" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="lidar_connection_joint" type="fixed">
+    <parent link="robot_base"/>
+    <child link="lidar_connection_link"/>
+    <origin xyz="0.02 0 0.144" rpy="0 0 0"/>
+  </joint>    
 </robot>
