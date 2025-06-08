@@ -287,6 +287,45 @@
       </plugin>
     </sensor>
   </gazebo>
+  <!--#####################  IMU SENSOR #################### -->
+  <gazebo reference="imu_link">
+    <sensor name="imu_sensor" type="imu">
+      <always_on>true</always_on>
+      <update_rate>25.0</update_rate>
+      <visualize>true</visualize>
+      <imu>
+        <angular_velocity>
+          <x>true</x>
+          <y>true</y>
+          <z>true</z>
+        </angular_velocity>
+        <linear_acceleration>
+          <x>true</x>
+          <y>true</y>
+          <z>true</z>
+        </linear_acceleration>
+        <orientation>
+          <x>true</x>
+          <y>true</y>
+          <z>true</z>
+        </orientation>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.0001</stddev>
+        </noise>
+      </imu>
+      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+        <ros>
+          <namespace>/</namespace>
+        </ros>
+        <updateRate>25.0</updateRate>
+        <bodyName>imu_link</bodyName>
+        <topicName>imu/data</topicName>
+        <frameName>imu_link</frameName>
+      </plugin>
+    </sensor>
+  </gazebo>
   <link name="base_footprint"/>
   <link name="robot_base">
     <visual>
@@ -470,7 +509,7 @@
     <inertial>
       <mass value="0.2"/>
       <origin xyz="0 0 0"/>
-      <inertia ixx="8.67e-5" ixy="0.0" ixz="0.0" iyy="8.67e-5" iyz="0.0" izz="1.6e-4"/>
+      <inertia ixx="3.50e-5" ixy="0.0" ixz="0.0" iyy="3.50e-5" iyz="0.0" izz="4.00e-5"/>
     </inertial>
   </link>
   <link name="lidar_bottom_link">
@@ -489,7 +528,7 @@
     <inertial>
       <mass value="0.2"/>
       <origin xyz="0 0 0"/>
-      <inertia ixx="8.67e-5" ixy="0.0" ixz="0.0" iyy="8.67e-5" iyz="0.0" izz="1.6e-4"/>
+      <inertia ixx="6.01e-5" ixy="0.0" ixz="0.0" iyy="5.67e-5" iyz="0.0" izz="8.67e-5"/>
     </inertial>
   </link>
   <link name="lidar_connection_link">
@@ -507,7 +546,7 @@
     <inertial>
       <mass value="0.2"/>
       <origin xyz="0 0 0"/>
-      <inertia ixx="8.67e-5" ixy="0.0" ixz="0.0" iyy="8.67e-5" iyz="0.0" izz="1.6e-4"/>
+      <inertia ixx="1.93e-4" ixy="0.0" ixz="0.0" iyy="8.67e-5" iyz="0.0" izz="2.27e-4"/>
     </inertial>
   </link>
   <!-- LIDAR Joint -->
