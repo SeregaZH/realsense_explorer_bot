@@ -29,7 +29,7 @@ Panels:
   - Class: rviz/Time
     Name: Time
     SyncMode: 0
-    SyncSource: PointCloud2
+    SyncSource: LaserScan
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -119,6 +119,16 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        lidar_bottom_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        lidar_connection_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         lidar_link:
           Alpha: 1
           Show Axes: false
@@ -188,6 +198,10 @@ Visualization Manager:
           Value: true
         imu_link:
           Value: true
+        lidar_bottom_link:
+          Value: true
+        lidar_connection_link:
+          Value: true
         lidar_link:
           Value: true
         link_back_left_wheel:
@@ -197,8 +211,6 @@ Visualization Manager:
         link_front_left_wheel:
           Value: true
         link_front_right_wheel:
-          Value: true
-        map:
           Value: true
         odom:
           Value: true
@@ -211,37 +223,40 @@ Visualization Manager:
       Show Axes: true
       Show Names: false
       Tree:
-        map:
-          odom:
-            base_footprint:
-              base_link:
-                robot_base:
-                  camera_bottom_screw_frame:
-                    camera_link:
-                      camera_depth_frame:
-                        camera_color_frame:
-                          camera_color_optical_frame:
-                            {}
-                        camera_depth_optical_frame:
+        odom:
+          base_footprint:
+            base_link:
+              robot_base:
+                camera_bottom_screw_frame:
+                  camera_link:
+                    camera_depth_frame:
+                      camera_color_frame:
+                        camera_color_optical_frame:
                           {}
-                        camera_left_ir_frame:
-                          camera_left_ir_optical_frame:
-                            {}
-                        camera_right_ir_frame:
-                          camera_right_ir_optical_frame:
-                            {}
-                  imu_link:
-                    {}
-                  lidar_link:
-                    {}
-                  link_back_left_wheel:
-                    {}
-                  link_back_right_wheel:
-                    {}
-                  link_front_left_wheel:
-                    {}
-                  link_front_right_wheel:
-                    {}
+                      camera_depth_optical_frame:
+                        {}
+                      camera_left_ir_frame:
+                        camera_left_ir_optical_frame:
+                          {}
+                      camera_right_ir_frame:
+                        camera_right_ir_optical_frame:
+                          {}
+                imu_link:
+                  {}
+                lidar_bottom_link:
+                  {}
+                lidar_connection_link:
+                  {}
+                lidar_link:
+                  {}
+                link_back_left_wheel:
+                  {}
+                link_back_right_wheel:
+                  {}
+                link_front_left_wheel:
+                  {}
+                link_front_right_wheel:
+                  {}
       Update Interval: 0
       Value: true
     - Angle Tolerance: 0.10000000149011612
@@ -260,7 +275,7 @@ Visualization Manager:
           Color: 204; 51; 204
           Scale: 1
           Value: true
-        Value: true
+        Value: false
       Enabled: true
       Keep: 100
       Name: Odometry
@@ -397,6 +412,7 @@ Visualization Manager:
       Unreliable: false
       Value: false
       Visibility:
+        "": true
         Camera: true
         DepthCloud: true
         Grid: true
@@ -423,6 +439,7 @@ Visualization Manager:
       Unreliable: false
       Value: false
       Visibility:
+        "": true
         Camera: true
         DepthCloud: true
         Grid: true
@@ -554,6 +571,16 @@ Visualization Manager:
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
+    - Alpha: 1
+      Class: rviz_plugin_tutorials/Imu
+      Color: 233; 185; 110
+      Enabled: false
+      History Length: 1
+      Name: Imu
+      Queue Size: 10
+      Topic: /imu/data
+      Unreliable: false
+      Value: false
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -598,9 +625,9 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.46979719400405884
+      Pitch: -0.010203203186392784
       Target Frame: <Fixed Frame>
-      Yaw: 3.145397186279297
+      Yaw: 3.1754114627838135
     Saved: ~
 Window Geometry:
   Camera:
